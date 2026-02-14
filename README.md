@@ -151,3 +151,7 @@ Please have your development environment fully configured and ready before the i
 6. Use SQLite Viewer Extension in VS Code to view the database, or any other viewer if not using VS Code
 
 Made with ❤️ by the VI team
+
+|-src
+|  |-controllers
+|  |  |-user.controller.ts

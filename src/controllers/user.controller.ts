@@ -17,7 +17,7 @@ export class UserController {
   async getUserById(req: Request, res: Response) {
     try {
       const user = await this.userRepository.findOneBy({
-        id: parseInt(req.params.id),
+        id: +req.params.id,
       });
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
@@ -41,7 +41,7 @@ export class UserController {
   async updateUser(req: Request, res: Response) {
     try {
       const user = await this.userRepository.findOneBy({
-        id: parseInt(req.params.id),
+        id: +req.params.id,
       });
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
@@ -56,7 +56,7 @@ export class UserController {
 
   async deleteUser(req: Request, res: Response) {
     try {
-      const result = await this.userRepository.delete(parseInt(req.params.id));
+      const result = await this.userRepository.delete(+req.params.id);
       if (result.affected === 0) {
         return res.status(404).json({ message: 'User not found' });
       }

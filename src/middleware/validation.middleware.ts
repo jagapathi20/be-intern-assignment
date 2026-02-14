@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
 
-export const validate = (schema: Joi.ObjectSchema) => {
+// Extended to support body, params, or query validation
+export const validate = (schema: Joi.Schema, source: 'body' | 'query' | 'params' = 'body') => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const { error } = schema.validate(req.body, {
+    const { error, value } = schema.validate(req[source], {
       abortEarly: false,
       stripUnknown: true,
     });
@@ -13,6 +14,8 @@ export const validate = (schema: Joi.ObjectSchema) => {
       return res.status(400).json({ message: errorMessage });
     }
 
+    // Reassign the validated (and stripped) values back to the request
+    req[source] = value;
     next();
   };
 };
