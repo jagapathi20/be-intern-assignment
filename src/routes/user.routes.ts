@@ -2,9 +2,11 @@ import { Router } from 'express';
 import { validate } from '../middleware/validation.middleware';
 import { createUserSchema, updateUserSchema } from '../validations/user.validation';
 import { UserController } from '../controllers/user.controller';
+import { AcitivityController } from '../controllers/feed.controller';
 
 export const userRouter = Router();
 const userController = new UserController();
+const activityController = new AcitivityController()
 
 // Get all users
 userRouter.get('/', userController.getAllUsers.bind(userController));
@@ -20,3 +22,7 @@ userRouter.put('/:id', validate(updateUserSchema), userController.updateUser.bin
 
 // Delete user
 userRouter.delete('/:id', userController.deleteUser.bind(userController));
+
+userRouter.get("/:id/feed", activityController.getUserActivity.bind(activityController))
+
+userRouter.get("/:id/feed", activityController.getUserFeed.bind(activityController))
