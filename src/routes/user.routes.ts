@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import { validate } from '../middleware/validation.middleware';
 import { createUserSchema, updateUserSchema } from '../validations/user.validation';
+import { feedValidation } from '../validations/feed.validation';
 import { UserController } from '../controllers/user.controller';
-import { AcitivityController } from '../controllers/feed.controller';
+import { ActivityController } from '../controllers/feed.controller';
 
 export const userRouter = Router();
 const userController = new UserController();
-const activityController = new AcitivityController()
+const activityController = new ActivityController()
 
 // Get all users
 userRouter.get('/', userController.getAllUsers.bind(userController));
@@ -23,6 +24,12 @@ userRouter.put('/:id', validate(updateUserSchema), userController.updateUser.bin
 // Delete user
 userRouter.delete('/:id', userController.deleteUser.bind(userController));
 
-userRouter.get("/:id/feed", activityController.getUserActivity.bind(activityController))
+userRouter.get(
+    "/activity/:id/", 
+    validate(feedValidation.getUserActivity.params),
+    activityController.getUserActivity.bind(activityController))
 
-userRouter.get("/:id/feed", activityController.getUserFeed.bind(activityController))
+userRouter.get(
+    "/feed/:id/", 
+    validate(feedValidation.getUserFeed.params),
+    activityController.getUserFeed.bind(activityController))

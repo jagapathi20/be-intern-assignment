@@ -22,8 +22,6 @@ export class Hashtag {
     @ManyToMany(() => Post, (post) => post.hashtags)
     @JoinTable({
         name: "post_hashtags",
-        joinColumn: { name: "hashtagId", referencedColumnName: "id" },
-        inverseJoinColumn: { name: "postId", referencedColumnName: "id" },
     })
     posts: Post[];
 

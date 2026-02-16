@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Post} from './Post';
 import { Like } from './Like';
+import { Follow } from './Follow';
 
 @Entity('users')
 export class User {
@@ -31,17 +32,12 @@ export class User {
   @OneToMany(() => Like, (like) => like.user)
   likes: Like[];
   
-  @ManyToMany(() => User, (user) => user.following)
-  @JoinTable({
-    name: "follows",
-    joinColumn: {name: "followingId", referencedColumnName: "id"},
-    inverseJoinColumn: {name: "followerId", referencedColumnName: "id"},
-  })
-  followers: User[];
+  @OneToMany(() => Follow, (follow) => follow.following)
+  followers: Follow[];
 
-  @ManyToMany(() => User, (user) => user.followers)
-  following: User[];
-
+  @OneToMany(() => Follow, (follow) => follow.follower)
+  following: Follow[];
+  
   @CreateDateColumn()
   createdAt: Date;
 

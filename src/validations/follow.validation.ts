@@ -1,11 +1,27 @@
 import Joi from 'joi';
 
-export const followSchema = Joi.object({
-    id: Joi.number().integer().positive().required(),         
-    toFollowId: Joi.number().integer().positive().required()  
-});
-
-
-export const getFollowersSchema = Joi.object({
-    id: Joi.number().integer().positive().required()
-});
+export const followValidation = {
+  getFollow: {
+    params: Joi.object({
+      id: Joi.number().integer().required()
+    })
+  },
+  createFollow: {
+    params: Joi.object({
+      id: Joi.number().integer().required(),
+      followingId: Joi.number().integer().required()
+    })
+  },
+  deleteFollow: {
+    params: Joi.object({
+      id: Joi.number().integer().required(),
+      followId: Joi.number().integer().required()
+    })
+  },
+  toggleFollow: {
+    params: Joi.object({
+      id: Joi.number().integer().required(),
+      toFollowId: Joi.number().integer().required()
+    })
+  }
+};
